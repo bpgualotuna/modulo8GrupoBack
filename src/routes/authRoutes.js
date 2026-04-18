@@ -8,6 +8,4 @@ router.post("/register", authController.registrarUsuario);
 router.post("/login", authController.loginUsuario);
 router.post("/logout", authController.logoutUsuario);
 
-router.patch('/premium', verificarToken, authController.makePremium);
-
 module.exports = router;

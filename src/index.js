@@ -10,6 +10,7 @@ const authRoutes = require("./routes/authRoutes");
 const generoRoutes = require("./routes/generoRoutes");
 const contenidoRoutes = require("./routes/contenidoRoutes");
 const favoritoRoutes = require("./routes/favoritoRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const {apiReference} = require('@scalar/express-api-reference');
 
@@ -33,6 +34,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api", generoRoutes);
 app.use("/api", contenidoRoutes);
 app.use("/api", favoritoRoutes);
+app.use("/api", userRoutes);
 
 
 app.use('/reference', apiReference({
