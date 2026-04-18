@@ -9,6 +9,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const generoRoutes = require("./routes/generoRoutes");
 const contenidoRoutes = require("./routes/contenidoRoutes");
+const favoritoRoutes = require("./routes/favoritoRoutes");
 
 const {apiReference} = require('@scalar/express-api-reference');
 
@@ -29,6 +30,7 @@ console.log("Registrando rutas /api...");
 app.use("/api/auth", authRoutes);
 app.use("/api", generoRoutes);
 app.use("/api", contenidoRoutes);
+app.use("/api", favoritoRoutes);
 
 
 app.use('/reference', apiReference({

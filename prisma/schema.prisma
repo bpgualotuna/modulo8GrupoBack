@@ -4,14 +4,16 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 model Usuario {
-  id          Int      @id @default(autoincrement())
-  email       String   @unique
+  id          Int         @id @default(autoincrement())
+  email       String      @unique
   password    String
-  rol         String   @default("usuario")
+  rol         String      @default("CLIENTE")
+  favoritos   Favorito[]
 }
 
 model Genero {
@@ -21,13 +23,25 @@ model Genero {
 }
 
 model Contenido {
-  id              Int      @id @default(autoincrement())
+  id              Int         @id @default(autoincrement())
   titulo          String
-  descripcion     String?  @db.Text
-  clasificacion   String   @default("G")
+  descripcion     String?     @db.Text
+  clasificacion   String      @default("G")
   duracion        Int?
   generoId        Int
-  genero          Genero   @relation(fields: [generoId], references: [id])
+  genero          Genero      @relation(fields: [generoId], references: [id])
+  favoritos       Favorito[]
+}
+
+model Favorito {
+  id          Int       @id @default(autoincrement())
+  usuarioId   Int
+  contenidoId Int
+  createdAt   DateTime  @default(now())
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  contenido   Contenido @relation(fields: [contenidoId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, contenidoId])
 }
 
 model TokenRevocado {
