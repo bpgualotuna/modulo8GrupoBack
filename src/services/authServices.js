@@ -31,4 +31,7 @@ async function loginUsuario({ email, password }) {
     return { usuario, token };
 }
 
-module.exports = { registrarUsuario, loginUsuario };
+async function upgradeToPremium(userId) {
+    return await userRepository.cambiarAPremium(userId);
+}
+module.exports = { registrarUsuario, loginUsuario, upgradeToPremium };

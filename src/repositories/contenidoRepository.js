@@ -35,4 +35,14 @@ async function eliminarContenido(id) {
     });
 }
 
-module.exports = { crearContenido, obtenerPorId, getContenidos, actualizarContenido, eliminarContenido };
+async function buscarPorTitulo(query) {
+    return prisma.contenido.findMany({
+        where: {
+            titulo: {
+                contains: query,
+            }
+        },
+        include: { genero: true }
+    });
+}
+module.exports = { crearContenido, obtenerPorId, getContenidos, actualizarContenido, eliminarContenido, buscarPorTitulo };

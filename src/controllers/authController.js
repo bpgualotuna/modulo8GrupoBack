@@ -31,5 +31,15 @@ async function logoutUsuario(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
+async function makePremium(req, res) {
+    try {
+        // Asumiendo que tu middleware de auth guarda el id en req.user
+        const userId = req.user.id;
+        const user = await authServices.upgradeToPremium(userId);
+        res.status(200).json({ message: 'Ahora eres usuario Premium', user });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
 
-module.exports = { registrarUsuario, loginUsuario, logoutUsuario };
+module.exports = { registrarUsuario, loginUsuario, logoutUsuario,  };

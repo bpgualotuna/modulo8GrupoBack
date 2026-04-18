@@ -43,4 +43,8 @@ async function eliminarContenido(id) {
     return await contenidoRepository.eliminarContenido(id);
 }
 
+async function search(titulo) {
+    return await contenidoRepository.buscarPorTitulo(titulo);
+}
+
 module.exports = { crearContenido, getContenidos, actualizarContenido, eliminarContenido };
