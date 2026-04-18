@@ -14,7 +14,9 @@ const favoritoRoutes = require("./routes/favoritoRoutes");
 const {apiReference} = require('@scalar/express-api-reference');
 
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN
+        ? process.env.CORS_ORIGIN.split(",").map(o => o.trim())
+        : ["http://localhost:5173", "http://localhost:80", "http://frontend"],
     credentials: true,
 };
 
