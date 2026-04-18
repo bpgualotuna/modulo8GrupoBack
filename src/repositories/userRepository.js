@@ -21,4 +21,11 @@ async function findById(id) {
     return await prisma.usuario.findUnique({ where: { id } });
 }
 
-module.exports = { crearUsuario, obtenerPorEmail, findById };
+async function cambiarAPremium(id) {
+    return await prisma.usuario.update({
+        where: { id },
+        data: { rol: "PREMIUM" }
+    });
+}
+
+module.exports = { crearUsuario, obtenerPorEmail, findById, cambiarAPremium };

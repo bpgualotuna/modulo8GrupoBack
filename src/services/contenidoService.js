@@ -47,4 +47,4 @@ async function search(titulo) {
     return await contenidoRepository.buscarPorTitulo(titulo);
 }
 
-module.exports = { crearContenido, getContenidos, actualizarContenido, eliminarContenido };
+module.exports = { crearContenido, getContenidos, actualizarContenido, eliminarContenido, search };

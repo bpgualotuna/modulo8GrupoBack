@@ -3,6 +3,9 @@ const router = express.Router();
 const contenidoController = require("../controllers/contenidoController");
 const { verificarToken } = require("../middleware/authMiddleware");
 
+// IMPORTANTE: La ruta de búsqueda debe ir ANTES de las rutas con :id
+router.get("/contenidos/search", contenidoController.buscar);
+
 router.post("/contenidos", verificarToken, contenidoController.crearContenido);
 
 router.get("/contenidos", verificarToken, contenidoController.getContenidos);
@@ -11,5 +14,4 @@ router.put("/contenidos/:id", verificarToken, contenidoController.actualizarCont
 
 router.delete("/contenidos/:id", verificarToken, contenidoController.eliminarContenido);
 
-router.get('/search', contenidoController.buscar);
 module.exports = router;
