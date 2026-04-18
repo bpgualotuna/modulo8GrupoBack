@@ -9,4 +9,8 @@ async function obtenerPorEmail(email) {
     return await prisma.usuario.findUnique({ where: { email } });
 }
 
-module.exports = { crearUsuario, obtenerPorEmail };
+async function findById(id) {
+    return await prisma.usuario.findUnique({ where: { id } });
+}
+
+module.exports = { crearUsuario, obtenerPorEmail, findById };
