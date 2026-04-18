@@ -1,0 +1,259 @@
+openapi: 3.0.0
+info:
+  title: API Biblioteca Digital
+  version: 1.0.0
+  description: API para la gestión de usuarios y libros con autenticación JWT
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local de desarrollo
+
+paths:
+  /api/auth/register:
+    post:
+      tags:
+        - Autenticación
+      summary: Registrar un usuario
+      description: Registra un nuevo usuario con email y contraseña
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: usuario@test.com
+                password:
+                  type: string
+                  example: "123456"
+                rol:
+                  type: string
+                  example: user
+              required:
+                - email
+                - password
+                - rol
+      responses:
+        "201":
+          description: Usuario registrado exitosamente
+        "500":
+          description: Error al registrar usuario
+
+  /api/auth/login:
+    post:
+      tags:
+        - Autenticación
+      summary: Iniciar sesión
+      description: Inicia sesión con email y contraseña, devuelve un token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: usuario@test.com
+                password:
+                  type: string
+                  example: "123456"
+              required:
+                - email
+                - password
+      responses:
+        "200":
+          description: Sesión iniciada exitosamente
+        "500":
+          description: Error al iniciar sesión
+
+  /api/auth/logout:
+    post:
+      tags:
+        - Autenticación
+      summary: Cerrar sesión
+      description: Revoca el token JWT actual del usuario
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Usuario deslogueado exitosamente
+        "401":
+          description: Token no proporcionado
+
+  /api/contenidos:
+    get:
+      tags:
+        - Contenidos
+      summary: Obtener todos los Contenidos
+      description: Devuelve la lista de todos los contenidos. Solo para usuarios autenticados.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Contenidos obtenidos correctamente
+        "500":
+          description: Error al obtener los contenidos
+        "401":
+          description: Token no proporcionado o revocado
+        "403":
+          description: Token inválido
+
+    post:
+      tags:
+        - Contenidos
+      summary: Crear un contenido
+      description: Crea un nuevo contenido con descripción. Requiere autenticación.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                  example: Flash
+                descripcion:
+                  type: string
+                  example: DC COMIC
+                clasificacion:
+                  type: string
+                  example: R
+                duracion:
+                  type: integer
+                  example: 141
+                generoID:
+                  type: integer
+                  example: 1
+              required:
+                - generoID
+      responses:
+        "201":
+          description: Contenido creado correctamente
+        "401":
+          description: Token no proporcionado o revocado
+        "500":
+          description: Error al crear el contenido
+
+  /api/contenidos/{id}:
+    put:
+      tags:
+        - Contenidos
+      summary: Editar un contenido por ID
+      description: Edita un contenido específico por su ID. Requiere autenticación.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                  example: Flash
+                descripcion:
+                  type: string
+                  example: DC COMIC
+                clasificacion:
+                  type: string
+                  example: R
+                duracion:
+                  type: integer
+                  example: 141
+                generoID:
+                  type: integer
+                  example: 1
+              required:
+                - generoID
+      responses:
+        "200":
+          description: Libro obtenido correctamente
+        "400":
+          description: El ID no es un número válido
+        "404":
+          description: Libro no encontrado
+        "401":
+          description: Token no proporcionado o revocado
+
+    delete:
+      tags:
+        - Contenidos
+      summary: Eliminar un Contenido
+      description: Elimina un Contenido por su ID. Requiere autenticación.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        "200":
+          description: Contenido eliminado correctamente
+        "400":
+          description: El ID no es un número válido
+        "401":
+          description: Token no proporcionado o revocado
+        "500":
+          description: Error al eliminar el Contenido
+
+
+  /api/generos:
+    get:
+      tags:
+        - Generos
+      summary: Obtener todos los Generos
+      description: Devuelve la lista de todos los generos. Solo para usuarios autenticados.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Generos obtenidos correctamente
+        "500":
+          description: Error al obtener los contenidos
+        "401":
+          description: Token no proporcionado o revocado
+        "403":
+          description: Token inválido
+
+    post:
+      tags:
+        - Generos
+      summary: Crear un Genero
+      description: Crea un nuevo Genero. Requiere autenticación.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  example: Comedia
+              required:
+                - nombre
+      responses:
+        "201":
+          description: Contenido creado correctamente
+        "401":
+          description: Token no proporcionado o revocado
+        "500":
+          description: Error al crear el contenido
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

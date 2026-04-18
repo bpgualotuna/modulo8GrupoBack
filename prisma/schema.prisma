@@ -1,0 +1,37 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Usuario {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  rol         String   @default("usuario")
+}
+
+model Genero {
+  id          Int          @id @default(autoincrement())
+  nombre      String       @unique
+  contenidos  Contenido[]
+}
+
+model Contenido {
+  id              Int      @id @default(autoincrement())
+  titulo          String
+  descripcion     String?  @db.Text
+  clasificacion   String   @default("G")
+  duracion        Int?
+  generoId        Int
+  genero          Genero   @relation(fields: [generoId], references: [id])
+}
+
+model TokenRevocado {
+  id          Int      @id @default(autoincrement())
+  token       String   @unique @db.VarChar(512)
+  createdAt   DateTime @default(now())
+}
