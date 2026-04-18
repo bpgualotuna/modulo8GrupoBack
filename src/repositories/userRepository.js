@@ -17,3 +17,8 @@ async function cambiarAPremium(id) {
 }
 
 module.exports = { crearUsuario, obtenerPorEmail, cambiarAPremium };
+async function findById(id) {
+    return await prisma.usuario.findUnique({ where: { id } });
+}
+
+module.exports = { crearUsuario, obtenerPorEmail, findById };
