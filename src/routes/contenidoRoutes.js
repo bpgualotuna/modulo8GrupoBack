@@ -11,4 +11,5 @@ router.put("/contenidos/:id", verificarToken, contenidoController.actualizarCont
 
 router.delete("/contenidos/:id", verificarToken, contenidoController.eliminarContenido);
 
+router.get('/search', contenidoController.buscar);
 module.exports = router;

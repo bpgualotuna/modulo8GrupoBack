@@ -9,4 +9,11 @@ async function obtenerPorEmail(email) {
     return await prisma.usuario.findUnique({ where: { email } });
 }
 
-module.exports = { crearUsuario, obtenerPorEmail };
+async function cambiarAPremium(id) {
+    return prisma.usuario.update({
+        where: { id: parseInt(id) },
+        data: { rol: 'premium' }
+    });
+}
+
+module.exports = { crearUsuario, obtenerPorEmail, cambiarAPremium };

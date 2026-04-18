@@ -60,4 +60,14 @@ async function eliminarContenido(req, res) {
     }
 }
 
-module.exports = { crearContenido, getContenidos, actualizarContenido, eliminarContenido };
+async function buscar(req, res) {
+    try {
+        const { titulo } = req.query;
+        const resultados = await contenidoService.search(titulo);
+        res.status(200).json(resultados);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+module.exports = { crearContenido, getContenidos, actualizarContenido, eliminarContenido, buscar };
