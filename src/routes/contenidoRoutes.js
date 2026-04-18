@@ -4,7 +4,7 @@ const contenidoController = require("../controllers/contenidoController");
 const { verificarToken } = require("../middleware/authMiddleware");
 
 // IMPORTANTE: La ruta de búsqueda debe ir ANTES de las rutas con :id
-router.get("/contenidos/search", contenidoController.buscar);
+router.get("/contenidos/search", verificarToken, contenidoController.buscar);
 
 router.post("/contenidos", verificarToken, contenidoController.crearContenido);
 
